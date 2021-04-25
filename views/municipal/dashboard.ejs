@@ -1,0 +1,23 @@
+<h1>
+	MUNICIPALITY DASHBOARD
+</h1>
+<h3>
+	Welcome Employee ID : <%=id%>
+</h3>
+
+<p>
+	 There are <b><%=complaints.length%></b> complaints in the system corresponding to your id.
+</p>
+
+<% for(let comp of complaints){ %>
+	<li>
+		
+			<b>Complaint id</b> = <%=comp.ID%>,
+		
+		 
+		   <b>Complaint description</b> = <%=comp.description%>,
+		
+		<a href="/municipal/<%=comp.ID%>/update">Update Status</a>
+		
+	</li>
+<% } %>
