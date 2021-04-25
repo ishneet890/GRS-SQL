@@ -1,0 +1,14 @@
+<h2>
+	Update Status Of Complaint ID = <%=id%>
+</h2>
+<label>old status is <%=status%></label>
+
+<form action="/municipal/<%=id%>/update" method="POST">
+	<label for="_status">New Status</label>
+	<input type ="text" name="_status" id="_status">
+	<button>
+		Update
+	</button>
+	<br>  
+	<a href="/municipal/<%=id%>/write_review">Write Review</a>
+</form>
