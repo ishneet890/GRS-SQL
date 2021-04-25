@@ -1,2 +1,2 @@
-# GMS
-Grievance Management System  | DBMS Project
+# GRS
+Grievance Redressal System  | DBMS Project
