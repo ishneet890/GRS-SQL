@@ -6,9 +6,12 @@ CREATE TABLE complaints(
     description VARCHAR(250),
     _status INT DEFAULT 0,
     userID INT,
+    municipalID INT,
     createdAt TIMESTAMP DEFAULT NOW(),
     report VARCHAR(250),
-    FOREIGN KEY (userID) REFERENCES users(ID) ON DELETE CASCADE
+    FOREIGN KEY (userID) REFERENCES users(ID) ON DELETE CASCADE,
+    FOREIGN KEY (municipalID) REFERENCES municipal(id) ON DELETE CASCADE
+    
 );
     -- # municipalID INT,
 
