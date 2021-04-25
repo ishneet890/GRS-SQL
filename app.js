@@ -1,7 +1,7 @@
 const express = require('express');
 const mysql = require('mysql');
 const app = express();
-const sql_password=require('D:/DBMS/password');
+const sql_password=require('D:/DBMSP/password.js');
 const connection = mysql.createConnection({
 	host : 'localhost',
 	user : 'root',
@@ -96,7 +96,7 @@ app.post('/user/login',(req,res)=>{
 
 app.get('/user/:id/dashboard',(req,res)=>{
 	const {id} = req.params;
-	const q = 'SELECT description FROM complaint WHERE userID = ?';
+	const q = 'SELECT description FROM complaints WHERE userID = ?';
 	let complaints = [];
 	connection.query(q,id,function(error,results,fields){
 			if(error)throw error;
@@ -124,7 +124,7 @@ app.post('/user/:id/addComplaint',(req,res)=>{
 		description : description,
 		userID : id
 	}
-	connection.query('INSERT INTO complaint SET ?',newComplaint,function(error,results,fields){
+	connection.query('INSERT INTO complaints SET ?',newComplaint,function(error,results,fields){
 			if(error)throw error;
 			console.log(results);
 			res.redirect(`/user/${id}/dashboard`);
@@ -134,7 +134,7 @@ app.post('/user/:id/addComplaint',(req,res)=>{
 
 app.get('/user/:id/myComplaints',(req,res)=>{
 	const {id} = req.params;
-	const q = 'SELECT * FROM complaint WHERE userID = ?';
+	const q = 'SELECT * FROM complaints WHERE userID = ?';
 	connection.query(q,id,function(error,results,fields){
 			if(error)throw error;
 			// user = results[0];
@@ -150,7 +150,7 @@ app.get('/user/:id/myComplaints',(req,res)=>{
 
 app.get('/user/:uID/complaint/:cID',(req,res)=>{
 	const {cID} = req.params;
-	const q = 'SELECT * FROM complaint WHERE ID = ?';
+	const q = 'SELECT * FROM complaints WHERE ID = ?';
 	connection.query(q,cID,function(error,results,fields){
 			if(error)throw error;
 			// user = results[0];
