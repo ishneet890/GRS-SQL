@@ -166,6 +166,88 @@ app.get('/user/:uID/complaint/:cID',(req,res)=>{
 	});	
 })
 
+app.get('/municipal/login',(req,res)=>{
+	
+	res.render('municipal/login')
+
+});
+
+app.post('/municipal/login',(req,res)=>{
+	const {email,pass_word} = req.body;
+//	res.send(email);
+	const q = 'SELECT * FROM municipal WHERE email = ? AND pass_word = ?';
+	
+	let user;
+	connection.query(q,[email,pass_word],function(error,results,fields){
+			if(error)throw error;
+			if(results.length==0)res.send('nonexistent');
+			user = results[0];
+			console.log(results);
+		//	res.send(user);
+		var email=results[0].email;
+		
+		//res.send(`/municipal/${results[0].id}/dashboard`);
+		res.redirect(`/municipal/${results[0].id}/dashboard`);
+	});
+});
+
+app.get('/municipal/:id/dashboard',(req,res)=>{
+	const {id} = req.params;
+	const q = 'SELECT * FROM complaints WHERE municipalID = ?';
+	let complaints = [];
+	connection.query(q,id,function(error,results,fields){
+			if(error)throw error;
+			if(results.length==0)return res.send('hola');
+		res.render('municipal/dashboard',{id,complaints:results});
+	});
+});
+
+app.get('/municipal/:id/update',(req,res)=>{
+	const {id} = req.params;
+	//res.send('help');
+	const q='SELECT _status FROM complaints WHERE id=?'
+	connection.query(q,id,function(error,results,fields){
+			if(error)throw error;
+			if(results.length==0)return res.send('hola');
+		res.render('municipal/update',{id,status:results[0]._status});
+		
+	});
+});
+
+app.post('/municipal/:id/update',(req,res)=>{
+	const {_status} = req.body;
+	const {id} = req.params;
+	//res.send(req.body._status);
+	const q='UPDATE complaints SET _status= ? where id=?';
+	connection.query(q,[_status,id],function(error,results,fields){
+			if(error)throw error;
+			//if(results.length==0)return res.send('hola');
+		//res.send('record updated');
+		//res.redirect('/municipal/:id')
+			res.redirect(`/municipal/${id}/update`);
+	});
+		// console.log(user);
+});
+app.get('/municipal/:id/write_review',(req,res)=>{
+	const {id}=req.params;
+	res.render('municipal/review',{id});
+});
+
+app.post('/municipal/:id/write_review',(req,res)=>{
+	const {report} = req.body;
+	const {id} = req.params;
+	//res.send(req.body._status);
+	const q='UPDATE complaints SET report= ? where id=?';
+	connection.query(q,[report,id],function(error,results,fields){
+			if(error)throw error;
+			//if(results.length==0)return res.send('hola');
+		//res.send('record updated');
+		//res.redirect('/municipal/:id')
+		res.send('WRITTEN!!');
+		//	res.redirect(`/municipal/${id}/dashboard`);
+	});
+		// console.log(user);
+});
 app.listen(port,()=>{
 	console.log(`Port ${port} open`);
 })
