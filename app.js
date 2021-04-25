@@ -1,30 +1,33 @@
 const express = require('express');
 const mysql = require('mysql');
+const path=require('path');
+const sql_password=require('D:/DBMS/password.js');
 const app = express();
-const sql_password=require('D:/DBMSP/password.js');
+const port=3000;
+
+// --------------------------------------------------------
+//SQL CONNECTION:
 const connection = mysql.createConnection({
 	host : 'localhost',
 	user : 'root',
 	database : 'dbms',
-	password:sql_password
+	password: sql_password
 });
-const port=3000;
 connection.connect(function(err) {
 	if (err) throw err;
 	console.log("Connected!");
-  });
-// app.uses ---------------------------------------
-app.use(express.urlencoded({extended:true}));
-// ------------------------------------------------
-
-// app.sets ---------------------------------------
-app.set('view engine','ejs');
-// ------------------------------------------------
-const q = 'SHOW DATABASES';
-connection.query(q,function(error,results,fields){
-	if(error)throw error;
-	console.log(results);
 });
+// --------------------------------------------------------
+
+// --------------------------------------------------------
+app.use(express.urlencoded({extended:true}));
+app.use(express.static(__dirname + '/public'))
+app.set('view engine','ejs');
+app.set('views', path.join(__dirname, 'views'));
+// --------------------------------------------------------
+
+// --------------------------------------------------------
+//ROUTES:
 
 app.get('/',(req,res)=>{
 	const q = 'SELECT COUNT(*) AS count FROM users';
@@ -38,7 +41,6 @@ app.get('/',(req,res)=>{
 app.get('/user/signup',(req,res)=>{
 	res.render('user/signup');
 })
-// CREATE 
 app.post('/user/signup',(req,res)=>{
 	const {email,pass_word,fName,lName,age,occupation,gender,phone,address} = req.body;
 	

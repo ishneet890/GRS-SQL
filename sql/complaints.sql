@@ -1,4 +1,3 @@
-
 USE dbms;
 
 CREATE TABLE complaints(
