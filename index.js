@@ -261,6 +261,80 @@ app.post('/municipal/:id/write_review',(req,res)=>{
 	});
 		// console.log(user);
 });
+
+// Admin Routes -----------------------------
+
+app.get('/admin/login',(req,res)=>{
+	res.render('admin/login');
+})
+
+app.post('/admin/login',(req,res)=>{
+	const {email,pass_word} = req.body;
+	const q = 'SELECT * FROM admin WHERE email = ? AND pass_word = ?';
+	connection.query(q,[email,pass_word],function(error,results,fields){
+			if(error)throw error;
+			if(results.length==0)return res.send('hola');
+			res.render('admin/dashboard');
+	});
+	
+})
+
+app.get('/admin/addMunicipal',(req,res)=>{
+	res.render('admin/addMunicipal');
+})
+
+app.post('/admin/addMunicipal',(req,res)=>{
+	const {email,pass_word,fName,lName,age,gender,phone,address} = req.body;
+	
+	let user = {
+		email : email,
+		pass_word : pass_word,
+		fName : fName,
+		lName : lName,
+		age : age,
+		gender : gender,
+		phone : phone,
+		address : address
+	} 
+	try{
+		connection.query('INSERT INTO municipal SET ?',user,function(error,results,fields){
+			if(error){
+				return res.send(error.sqlMessage);
+			}
+			console.log(results);
+			return res.send(results);
+		});
+		// console.log(user);
+	}
+	catch(err){
+		res.send(err.message);
+	}
+})
+
+app.get('/admin/complaint/all',(req,res)=>{
+	connection.query('SELECT * FROM complaints',function(error,results,fields){
+		if(error){
+			return res.send(error.sqlMessage);
+		}
+		console.log(results);
+		// res.send(results);
+		return res.render('admin/allComplaints',{complaints : results})
+	});
+})
+
+app.get('/admin/complaint/:id',(req,res)=>{
+	const {id} = req.params;
+	// return res.send(id);
+	connection.query('SELECT * FROM complaints WHERE ID = ?',id,function(error,results,fields){
+		if(error){
+			return res.send(error.sqlMessage);
+		}
+		console.log(results);
+		// res.send(results);
+		return res.render('admin/viewComplaint',{complaint : results[0]})
+	});
+})
+
 app.listen(port,()=>{
 	console.log(`Port ${port} open`);
 })
