@@ -1,0 +1,6 @@
+
+USE dbms;
+CREATE TABLE IF NOT EXISTS department(
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50)
+);

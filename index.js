@@ -124,16 +124,15 @@ app.get('/user/:id/addComplaint',(req,res)=>{
 })
 
 app.post('/user/:id/addComplaint',(req,res)=>{
-	const {areaCode,description,municipalID} = req.body;
+	const {areaCode,description,deptID} = req.body;
 	const {id} = req.params;
 	
 	let newComplaint = {
 		areaCode : areaCode,
 		description : description,
 		userID : id,
-		municipalID : municipalID
+		deptID : deptID
 	}
-	// res.send(newComplaint);
 	try{
 		connection.query('INSERT INTO complaints SET ?',newComplaint,function(error,results,fields){
 				if(error){
@@ -212,12 +211,33 @@ app.post('/municipal/login',(req,res)=>{
 
 app.get('/municipal/:id/dashboard',(req,res)=>{
 	const {id} = req.params;
-	const q = 'SELECT * FROM complaints WHERE municipalID = ?';
+	const q = 'select DISTINCT deptID,name from municipal join department on municipal.deptID = department.ID WHERE municipal.id = ?';
 	let complaints = [];
 	connection.query(q,id,function(error,results,fields){
+		if(error)throw error;
+		// // if(results.length==0)return res.send('hola');
+		// res.render('municipal/dashboard',{id,complaints:results});
+		// return res.send(results);
+		const deptID = results[0].deptID;
+		const dept = results[0].name;
+			const q1 = 'SELECT * FROM complaints WHERE deptID = ?';
+			connection.query(q1,deptID,function(error1,results1,fields1){
+				if(error1)throw error1;
+				// res.send(results1);
+				// if(results.length==0)return res.send('hola');
+				res.render('municipal/dashboard',{dept,id,complaints:results1});
+		});
+	});
+});
+
+
+app.get('/municipal/:id/view',(req,res)=>{
+	const {id} = req.params;
+	const q='SELECT * FROM complaints WHERE ID=?'
+	connection.query(q,id,function(error,results,fields){
 			if(error)throw error;
-			// if(results.length==0)return res.send('hola');
-		    res.render('municipal/dashboard',{id,complaints:results});
+			if(results.length==0)return res.send('hola');
+			res.render('municipal/viewComplaint',{complaint:results[0]});
 	});
 });
 
@@ -228,8 +248,7 @@ app.get('/municipal/:id/update',(req,res)=>{
 	connection.query(q,id,function(error,results,fields){
 			if(error)throw error;
 			if(results.length==0)return res.send('hola');
-		res.render('municipal/update',{id,status:results[0]._status});
-		
+			res.render('municipal/update',{id,status:results[0]._status});
 	});
 });
 
@@ -247,6 +266,7 @@ app.post('/municipal/:id/update',(req,res)=>{
 	});
 		// console.log(user);
 });
+
 app.get('/municipal/:id/write_review',(req,res)=>{
 	const {id}=req.params;
 	res.render('municipal/review',{id});
@@ -290,9 +310,10 @@ app.get('/admin/addMunicipal',(req,res)=>{
 })
 
 app.post('/admin/addMunicipal',(req,res)=>{
-	const {email,pass_word,fName,lName,age,gender,phone,address} = req.body;
+	const {deptID,email,pass_word,fName,lName,age,gender,phone,address} = req.body;
 	
 	let user = {
+		deptID : deptID,
 		email : email,
 		pass_word : pass_word,
 		fName : fName,
@@ -341,6 +362,9 @@ app.get('/admin/complaint/:id',(req,res)=>{
 	});
 })
 
+app.get('*',(req,res)=>{
+	res.render('PageNotFound');
+})
 app.listen(port,()=>{
 	console.log(`Port ${port} open`);
 })

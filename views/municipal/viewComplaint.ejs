@@ -1,0 +1,25 @@
+<h2>
+	Complaint id : <%= complaint.ID %>
+</h2>
+
+<ul>
+	<li>
+		<b>ID : </b><%=complaint.ID %>
+	</li>
+	
+	<li>
+		<b>Area Code : </b><%=complaint.areaCode %>
+	</li>
+	
+	<li>
+		<b>Description : </b><%=complaint.description %>
+	</li>
+	
+	<li>
+		<b>Status : </b> <%= ((complaint._status==0)?'Pending':'Resolved'); %>
+	</li>
+	
+	<li>
+		<b>Created At : </b> <%= complaint.createdAt %>
+	</li>
+</ul>
