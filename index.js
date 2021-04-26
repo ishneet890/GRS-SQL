@@ -243,6 +243,31 @@ app.get('/municipal/:id/view',(req,res)=>{
 	});
 });
 
+app.post('/municipal/:id/flag',(req,res)=>{
+	const {id} = req.params;
+	const q  = 'UPDATE complaints SET _status= 2 where id=?';
+	connection.query(q,id,function(error,results,fields){
+		if(error)throw error;
+		res.redirect(`/municipal/${id}/view`);
+	});
+});
+
+app.get('/municipal/:id/resolve',(req,res)=>{
+	const {id} = req.params;
+	res.render('municipal/writeReview',{cID : id});
+});
+
+app.post('/municipal/:id/resolve',(req,res)=>{
+	const {id} = req.params;
+	const {report} = req.body;
+	const q  = 'UPDATE complaints SET _status= 1, report = ? WHERE id=?';
+	connection.query(q,[report,id],function(error,results,fields){
+		if(error)throw error;
+		res.redirect(`/municipal/${id}/view`);
+	});
+});
+
+
 app.get('/municipal/:id/update',(req,res)=>{
 	const {id} = req.params;
 	//res.send('help');

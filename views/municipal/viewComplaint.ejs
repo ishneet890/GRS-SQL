@@ -18,10 +18,31 @@
 	</li>
 	
 	<li>
-		<b>Status : </b> <%= ((complaint._status==0)?'Pending':'Resolved'); %>
+		<b>Status : </b> 
+		<%= ((complaint._status==0)?'Pending':''); %>
+		<% if(complaint._status==1){ %>
+			Resolved
+			<li>
+				<b>Report : </b> <%= complaint.report %>
+			</li>
+		<% } %>
+		<%= ((complaint._status==2)?'Flagged Inappropriate':''); %>
 	</li>
 	
 	<li>
 		<b>Created At : </b> <%= complaint.createdAt %>
 	</li>
+
+	<br>
+	
+	<form action="/municipal/<%=complaint.ID %>/flag" method="POST">
+		<button>
+			Flag Inappropriate
+		</button>
+	</form>
+	<form action="/municipal/<%=complaint.ID %>/resolve" method="GET">
+		<button>
+			Resolve
+		</button>
+	</form>
 </ul>
