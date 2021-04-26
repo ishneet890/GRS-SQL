@@ -1,36 +1,83 @@
-<h2>
-	Welcome to User Signup Page 
-</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/css/signup.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="https://kit.fontawesome.com/6d1a88741d.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<%- include('../partials/navbarLogin.ejs') %>
 
-<form action="/user/signup" method="POST">
-	<label for="email">Email</label>
-	<input type="text" name="email" id="email">
-	<br>
-	<label for="pass_word">Password</label>
-	<input type="password" name="pass_word" id="pass_word">
-	<br>
-	<label for="fName">First Name</label>
-	<input type="text" name="fName" id="fName">
-	<br>
-	<label for="lName">Last Name</label>
-	<input type="text" name="lName" id="lName">
-	<br>
-	<label for="age">Age</label>
-	<input type="number" name="age" id="age">
-	<br>
-	<label for="occupation">Occupation</label>
-	<input type="text" name="occupation" id="occupation">
-	<br>
-	<label for="gender">Gender</label>
-	<input type="text" name="gender" id="gender">
-	<br>
-	<label for="phone">Phone</label>
-	<input type="text" name="phone" id="phone">
-	<br>
-	<label for="address">Address</label>
-	<input type="text" name="address" id="address">
-	
-	<button>
-		Submit
-	</button>
-</form>
+<div class="container register">
+    <div class="row">
+        <div class="col-md-3 register-left">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ02NU5OjjSIqE0-4ywNxuEM2OO_n_FNyu_-g&usqp=CAU" alt=""/>
+            <div>
+                <h3>Welcome</h3>
+                <p>It's your right to be heard!</p>
+            </div>
+        </div>
+        <div class="col-md-9 register-right">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <h3 class="register-heading">Sign Up As Citizen</h3>
+                    <form action="/user/signup" method="POST">
+                        <div class="row register-form">
+                            <div class="col-md-6">
+								<div class="form-group">
+                                    <input type="email" class="form-control" name="email" placeholder="Email*" value="" required/>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="fName" placeholder="First Name*" value="" required/>
+                                </div>
+								<div class="form-group">
+                                    <input type="number" class="form-control" name="age" min="1" placeholder="Age*" value="" required/>
+                                </div>
+								<div class="form-group">
+                                    <input type="text" minlength="10" maxlength="10" name="phone" class="form-control" placeholder="Phone Number*" value="" required/>
+                                </div>
+                                <div class="form-group">
+                                    <div class="maxl">
+                                        <label class="radio inline"> 
+                                            <input type="radio" name="gender" value="male" name="gender" checked>
+                                            <span> Male </span> 
+                                        </label>
+                                        <label class="radio inline"> 
+                                            <input type="radio" name="gender" name="gender" value="female">
+                                            <span>Female </span> 
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="password" class="form-control" name="pass_word" placeholder="Password*" value="" required/>
+                                </div>
+								<div class="form-group">
+                                    <input type="text" class="form-control" name="lName" placeholder="Last Name*" value="" required/>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="occupation" placeholder="Occupation*" value="" required/>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="address" placeholder="Address*" value="" required/>
+                                </div>
+                                
+                                <input type="submit" class="btnRegister"  value="Register"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+</body>
+</html>
