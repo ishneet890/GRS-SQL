@@ -166,7 +166,8 @@ app.get('/user/:id/myComplaints',(req,res)=>{
 
 app.get('/user/:uID/complaint/:cID',(req,res)=>{
 	const {cID} = req.params;
-	const q = 'SELECT * FROM complaints WHERE ID = ?';
+	// const q = 'SELECT * FROM complaints WHERE ID = ?';
+	const q= 'select complaints.*, department.name AS dept  from complaints join department on complaints.deptID = department.ID WHERE complaints.ID = ?'
 	connection.query(q,cID,function(error,results,fields){
 			if(error)throw error;
 			// user = results[0];
@@ -233,7 +234,8 @@ app.get('/municipal/:id/dashboard',(req,res)=>{
 
 app.get('/municipal/:id/view',(req,res)=>{
 	const {id} = req.params;
-	const q='SELECT * FROM complaints WHERE ID=?'
+	// const q='SELECT * FROM complaints WHERE ID=?'
+	const q='select complaints.*, department.name AS dept  from complaints join department on complaints.deptID = department.ID WHERE complaints.ID = ?'
 	connection.query(q,id,function(error,results,fields){
 			if(error)throw error;
 			if(results.length==0)return res.send('hola');
@@ -352,7 +354,8 @@ app.get('/admin/complaint/all',(req,res)=>{
 app.get('/admin/complaint/:id',(req,res)=>{
 	const {id} = req.params;
 	// return res.send(id);
-	connection.query('SELECT * FROM complaints WHERE ID = ?',id,function(error,results,fields){
+	const q= 'select complaints.*, department.name AS dept  from complaints join department on complaints.deptID = department.ID WHERE complaints.ID = ?'
+	connection.query(q,id,function(error,results,fields){
 		if(error){
 			return res.send(error.sqlMessage);
 		}

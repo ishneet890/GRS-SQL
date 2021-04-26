@@ -1,5 +1,4 @@
 const create_tables_query=`
-DROP DATABASE IF EXISTS dbms;
 CREATE DATABASE IF NOT EXISTS dbms;
 USE dbms;
 
