@@ -1,5 +1,4 @@
 USE dbms;
-
 CREATE TABLE users(
     ID INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(50),
@@ -12,3 +11,4 @@ CREATE TABLE users(
     phone VARCHAR(20),
     address VARCHAR(100)
 );
+insert into users (email,pass_word,fName,lName,age,occupation,gender,phone,address) values("user1@gmail.com","user1","user1","user1",20,"occup","male","phuser1","addruser1");

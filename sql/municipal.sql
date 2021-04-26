@@ -1,5 +1,5 @@
 CREATE TABLE municipal(
-    id int AUTO_INCREMENT PRIMARY Key,
+    ID int AUTO_INCREMENT PRIMARY Key,
     fName VARCHAR(50),
     lName VARCHAR(50),
     age VARCHAR(50),
@@ -10,6 +10,6 @@ CREATE TABLE municipal(
     address VARCHAR(50)
 );
 insert into municipal(fname,lname,age,email,pass_word,gender,phone,address)
-values ("muni","cipal","70","muni@gmail.com","muni123","m","8986566","addr"),
-("muni1","cipal","80","muni1@gmail.com","muni1123","m","78349344","addre"),
-("muni2","cipal","40","muni2@gmail.com","muni2123","m","78349344","addre");
+values ("mun1","cipal","70","mun1@gmail.com","mun1","m","8986566","addr"),
+("mun2","cipal","80","mun2@gmail.com","mun2","m","78349344","addre"),
+("mun3","cipal","40","mun3@gmail.com","mun3","m","78349344","addre");
