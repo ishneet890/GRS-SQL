@@ -1,7 +1,8 @@
 const express = require('express');
 const mysql = require('mysql');
 const path=require('path');
-const sql_password=require('D:/DBMSP/password.js');
+const sql_password=require('D:/DBMS/password.js');
+const create_tables_query=require('./sql/create_tables');
 const app = express();
 const port=3000;
 
@@ -10,12 +11,17 @@ const port=3000;
 const connection = mysql.createConnection({
 	host : 'localhost',
 	user : 'root',
-	database : 'dbms',
-	password: sql_password
+	password: sql_password,
+	multipleStatements : true
 });
 connection.connect(function(err) {
 	if (err) throw err;
 	console.log("Connected!");
+});
+// --------------------------------------------------------
+//CREATES SQL TABLES IN DATABASE:
+connection.query(create_tables_query,function(error,results,fields){
+	if(error)throw error;
 });
 // --------------------------------------------------------
 
