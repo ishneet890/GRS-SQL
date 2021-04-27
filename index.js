@@ -35,6 +35,10 @@ app.set('views', path.join(__dirname, 'views'));
 // --------------------------------------------------------
 //ROUTES:
 
+app.listen(port,()=>{
+	console.log(`Port ${port} open`);
+})
+
 app.get('/',(req,res)=>{
 	const q = 'SELECT COUNT(*) AS count FROM users';
 	const query = connection.query(q,function(error,results,fields){
@@ -44,12 +48,12 @@ app.get('/',(req,res)=>{
 	})
 })
 
+// USER ROUTES:--------------------------------------------
 app.get('/user/signup',(req,res)=>{
 	res.render('user/signup');
 })
 app.post('/user/signup',(req,res)=>{
-	const {email,pass_word,fName,lName,age,occupation,gender,phone,address} = req.body;
-	
+	const {email,pass_word,fName,lName,age,occupation,gender,phone,address} = req.body;	
 	let user = {
 		email : email,
 		pass_word : pass_word,
@@ -61,22 +65,15 @@ app.post('/user/signup',(req,res)=>{
 		phone : phone,
 		address : address
 	}
-	// res.send(user);
-	// Inserting data | single user
-	// let person = {
-	// 	email : faker.internet.email()
-	// };
-
 	try{
 		connection.query('INSERT INTO users SET ?',user,function(error,results,fields){
 			if(error)throw error;
-			console.log(results);
-			res.send(results);
+			res.redirect('/user/login');
 		});
-		// console.log(user);
 	}
 	catch(err){
-		res.send(err.message);
+		console.log(err);
+		res.redirect('/user/signup');
 	}
 })
 
@@ -86,20 +83,15 @@ app.get('/user/login',(req,res)=>{
 
 app.post('/user/login',(req,res)=>{
 	const {email,pass_word} = req.body;
-	// res.send(pass_word);
 	const q = 'SELECT id FROM users WHERE email = ? AND pass_word = ?';
-	// res.send(q);
-	let user;
 	connection.query(q,[email,pass_word],function(error,results,fields){
 			if(error)throw error;
-			if(results.length==0)return res.send('hola');
-			user = results[0];
+			if(results.length==0){
+				return res.redirect('/user/login');
+			}
 			console.log(results);
-			const str = `/user/${results[0].id}/dashboard`;
-			// res.send(str);
 			res.redirect(`/user/${results[0].id}/dashboard`);
-	});
-	
+	});	
 })
 
 app.get('/user/:id/dashboard',(req,res)=>{
@@ -181,31 +173,19 @@ app.get('/user/:uID/complaint/:cID',(req,res)=>{
 	});	
 })
 
-
-// Municipal Routes -----------------------------------------------------------------------------
-app.get('/municipal/login',(req,res)=>{
-	
+// MUNICIPAL ROUTES:---------------------------------------
+app.get('/municipal/login',(req,res)=>{	
 	res.render('municipal/login')
-
 });
 
 app.post('/municipal/login',(req,res)=>{
 	const {email,pass_word} = req.body;
-//	res.send(email);
-	const q = 'SELECT * FROM municipal WHERE email = ? AND pass_word = ?';
-	
-	let user;
+	const q = 'SELECT * FROM municipal WHERE email = ? AND pass_word = ?';	
 	connection.query(q,[email,pass_word],function(error,results,fields){
-			if(error)throw error;
-			if(results.length==0){
-				return res.send('nonexistent');
-			}
-			user = results[0];
-			console.log(results);
-		//	res.send(user);
-		var email=results[0].email;
-		
-		//res.send(`/municipal/${results[0].id}/dashboard`);
+		if(error)throw error;
+		if(results.length==0){
+			return res.redirect('/municipal/login');
+		}
 		res.redirect(`/municipal/${results[0].ID}/dashboard`);
 	});
 });
@@ -315,8 +295,7 @@ app.post('/municipal/:id/write_review',(req,res)=>{
 		// console.log(user);
 });
 
-// Admin Routes -----------------------------
-
+// ADMIN ROUTES:-------------------------------------------
 app.get('/admin/login',(req,res)=>{
 	res.render('admin/login');
 })
@@ -326,10 +305,11 @@ app.post('/admin/login',(req,res)=>{
 	const q = 'SELECT * FROM admin WHERE email = ? AND pass_word = ?';
 	connection.query(q,[email,pass_word],function(error,results,fields){
 			if(error)throw error;
-			if(results.length==0)return res.send('hola');
+			if(results.length==0){
+				return res.redirect('/admin/login');
+			}
 			res.render('admin/dashboard');
-	});
-	
+	});	
 })
 
 app.get('/admin/addMunicipal',(req,res)=>{
@@ -390,9 +370,8 @@ app.get('/admin/complaint/:id',(req,res)=>{
 	});
 })
 
+// ERROR 404 ROUTE:----------------------------------------
 app.get('*',(req,res)=>{
 	res.render('PageNotFound');
 })
-app.listen(port,()=>{
-	console.log(`Port ${port} open`);
-})
+
