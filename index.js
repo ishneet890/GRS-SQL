@@ -116,14 +116,15 @@ app.get('/user/:id/addComplaint',(req,res)=>{
 })
 
 app.post('/user/:id/addComplaint',(req,res)=>{
-	const {areaCode,description,deptID} = req.body;
+	const {areaCode,description,deptID,title} = req.body;
 	const {id} = req.params;
 	
 	let newComplaint = {
 		areaCode : areaCode,
 		description : description,
 		userID : id,
-		deptID : deptID
+		deptID : deptID,
+		title : title
 	}
 	try{
 		connection.query('INSERT INTO complaints SET ?',newComplaint,function(error,results,fields){

@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS municipal(
 CREATE TABLE IF NOT EXISTS complaints(
     ID INT AUTO_INCREMENT PRIMARY KEY,
     areaCode VARCHAR(50),
+    title VARCHAR(255),
     description VARCHAR(250),
     _status INT DEFAULT 0,
     userID INT,
