@@ -274,8 +274,7 @@ app.get('/admin/addMunicipal',(req,res)=>{
 })
 
 app.post('/admin/addMunicipal',(req,res)=>{
-	const {deptID,email,pass_word,fName,lName,age,gender,phone,address} = req.body;
-	
+	const {deptID,email,pass_word,fName,lName,age,gender,phone,address} = req.body;	
 	let user = {
 		deptID : deptID,
 		email : email,
@@ -290,15 +289,15 @@ app.post('/admin/addMunicipal',(req,res)=>{
 	try{
 		connection.query('INSERT INTO municipal SET ?',user,function(error,results,fields){
 			if(error){
-				return res.send(error.sqlMessage);
+				console.log(error.sqlMessage)
+				return res.redirect('/admin/addMunicipal');
 			}
-			console.log(results);
-			return res.send(results);
+			return res.redirect('/admin/dashboard');
 		});
-		// console.log(user);
 	}
 	catch(err){
-		res.send(err.message);
+		console.log(err.message)
+		return res.redirect('/admin/addMunicipal');
 	}
 })
 

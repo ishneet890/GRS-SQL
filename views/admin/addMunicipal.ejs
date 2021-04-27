@@ -1,36 +1,85 @@
-<h2>
-    Add a New Municipal Authority
-</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Municipal Officer</title>
+    <link rel="stylesheet" href="/css/addMunicipal.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="https://kit.fontawesome.com/6d1a88741d.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container register">
+    <div class="row">
+        <div class="col-md-3 register-left">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMnLXuTb5DJaDCMk87axKsMxBpB_jGpAiUkg&usqp=CAU" alt="">
+            <div>
+                <h3>Changed Your Mind?</h3>
+                <!-- <p>It's your right to be heard!</p> -->
+				<form action="/admin/dashboard">
+					<!-- <input type="submit" class="btnRegister"  value="Go Back"/> -->
+					<button class="btnBack">Go Back</button>
+				</form>
+            </div>
+        </div>
+        <div class="col-md-9 register-right">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <h3 class="register-heading">Add New Municipal Officer</h3>
+                    <form action="/admin/addMunicipal" method="POST">
+                        <div class="row register-form">
+                            <div class="col-md-6">
+								<div class="form-group">
+                                    <input type="email" class="form-control" name="email" placeholder="Email*" value="" required/>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="fName" placeholder="First Name*" value="" required/>
+                                </div>
+								<div class="form-group">
+                                    <input type="number" class="form-control" name="age" min="1" placeholder="Age*" value="" required/>
+                                </div>
+								<div class="form-group">
+                                    <input type="text" minlength="10" maxlength="10" name="phone" class="form-control" placeholder="Phone Number*" value="" required/>
+                                </div>
+                                <div class="form-group">
+                                    <div class="maxl">
+                                        <label class="radio inline"> 
+                                            <input type="radio" name="gender" value="male" name="gender" checked>
+                                            <span> Male </span> 
+                                        </label>
+                                        <label class="radio inline"> 
+                                            <input type="radio" name="gender" name="gender" value="female">
+                                            <span>Female </span> 
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="password" class="form-control" name="pass_word" placeholder="Password*" value="" required/>
+                                </div>
+								<div class="form-group">
+                                    <input type="text" class="form-control" name="lName" placeholder="Last Name*" value="" required/>
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" class="form-control" name="deptID" placeholder="Department ID*" value="" required/>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="address" placeholder="Address*" value="" required/>
+                                </div>
+                                
+                                <input type="submit" class="btnRegister"  value="Add Account"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<form action="/admin/addMunicipal" method="POST">
-	<label for="deptID">Department Code</label>
-	<input type="number" name="deptID" id="deptID">
-	<br>
-	<label for="email">Email</label>
-	<input type="text" name="email" id="email">
-	<br>
-	<label for="pass_word">Password</label>
-	<input type="password" name="pass_word" id="pass_word">
-	<br>
-	<label for="fName">First Name</label>
-	<input type="text" name="fName" id="fName">
-	<br>
-	<label for="lName">Last Name</label>
-	<input type="text" name="lName" id="lName">
-	<br>
-	<label for="age">Age</label>
-	<input type="number" name="age" id="age">
-	<br>
-	<label for="gender">Gender</label>
-	<input type="text" name="gender" id="gender">
-	<br>
-	<label for="phone">Phone</label>
-	<input type="text" name="phone" id="phone">
-	<br>
-	<label for="address">Address</label>
-	<input type="text" name="address" id="address">
-	
-	<button>
-		Submit
-	</button>
-</form>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+</body>
+</html>
