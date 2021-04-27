@@ -1,6 +1,15 @@
-01. Municipal Dashboard
-    a) remove update status
-    b) view details, two buttons, flag , Resolve
-02. complaint schema 
+
+26-04
+
+01. Municipal Dashboard | Done
+    a) remove update status  | Done
+    b) view details, two buttons, flag , Resolve | Done
+02. complaint schema | Pending
     add title
-03. 
+
+27-04
+
+01. Municipal and Admin | Done
+        Admin can view all flagged complaints in its dashboard | Done
+        Municipal can mark complaint as inappropriate | Done
+        Admin can discard or restore flagged complaints | Done

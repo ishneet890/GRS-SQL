@@ -1,0 +1,13 @@
+<h4>
+	Welcome Admin
+</h4>
+<h4>
+	Flagged Complaints
+</h4>
+
+<% for(let comp of complaints){ %>
+	<li>
+		<%= comp.description %> | <a href="/admin/complaint/<%=comp.ID%>">View Details</a>
+	</li>
+
+<% } %>

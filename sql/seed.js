@@ -57,11 +57,9 @@ CREATE TABLE IF NOT EXISTS complaints(
     _status INT DEFAULT 0,
     userID INT,
     deptID INT,
-    municipalID INT,
     createdAt TIMESTAMP DEFAULT NOW(),
     report VARCHAR(250),
     FOREIGN KEY (userID) REFERENCES users(ID) ON DELETE CASCADE,
-    FOREIGN KEY (municipalID) REFERENCES municipal(ID) ON DELETE CASCADE,    
     FOREIGN KEY(deptID) REFERENCES department(ID) ON DELETE CASCADE
 );
 

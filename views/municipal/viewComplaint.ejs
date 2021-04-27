@@ -26,7 +26,14 @@
 				<b>Report : </b> <%= complaint.report %>
 			</li>
 		<% } %>
-		<%= ((complaint._status==2)?'Flagged Inappropriate':''); %>
+		<%= ((complaint._status==2)?'Marked As Inappropriate':''); %>
+		<% if(complaint._status==3){ %>
+			Inappropriate (Discarded)
+			<li>
+				<b>Report : </b> <%= complaint.report %>
+			</li>
+		<% } %>
+		<%= ((complaint._status==4)?'Pending (Marked Appropriate)':''); %>
 	</li>
 	
 	<li>
@@ -35,14 +42,18 @@
 
 	<br>
 	
-	<form action="/municipal/<%=complaint.ID %>/flag" method="POST">
-		<button>
-			Flag Inappropriate
-		</button>
-	</form>
-	<form action="/municipal/<%=complaint.ID %>/resolve" method="GET">
-		<button>
-			Resolve
-		</button>
-	</form>
+	<% if(complaint._status==0 || complaint._status==4){ %>
+		<% if(complaint._status!=4){ %>
+			<form action="/municipal/<%=complaint.ID %>/flag" method="POST">
+				<button>
+					Flag Inappropriate
+				</button>
+			</form>
+		<% } %>
+		<form action="/municipal/<%=complaint.ID %>/resolve" method="GET">
+			<button>
+				Resolve
+			</button>
+		</form>
+	<% } %>
 </ul>

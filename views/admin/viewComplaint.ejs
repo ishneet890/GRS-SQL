@@ -26,12 +26,26 @@
 				<b>Report : </b> <%= complaint.report %>
 			</li>
 		<% } %>
-		<%= ((complaint._status==2)?'Flagged Inappropriate':''); %>
+		<%= ((complaint._status==2)?'Marked As Inappropriate':''); %>
+		<% if(complaint._status==3){ %>
+			Inappropriate (Discarded)
+			<li>
+				<b>Report : </b> <%= complaint.report %>
+			</li>
+		<% } %>
+		<%= ((complaint._status==4)?'Pending (Marked Appropriate)':''); %>
 	</li>
 	
 	<li>
 		<b>Created At : </b> <%= complaint.createdAt %>
 	</li>
-
 	<br>
+	<% if(complaint._status==2){ %>
+		<form action="/admin/complaint/<%=complaint.ID%>/discard" method="GET">
+			<button>Inappropriate/Discard</button>
+		</form>
+		<form action="/admin/complaint/<%=complaint.ID%>/restore" method="POST">
+			<button>Appropriate/Remove Flag</button>
+		</form>
+	<% } %>
 </ul>

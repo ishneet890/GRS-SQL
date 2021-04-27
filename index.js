@@ -234,7 +234,7 @@ app.post('/municipal/:id/flag',(req,res)=>{
 
 app.get('/municipal/:id/resolve',(req,res)=>{
 	const {id} = req.params;
-	res.render('municipal/writeReview',{cID : id});
+	res.render('municipal/writeReport',{cID : id});
 });
 
 app.post('/municipal/:id/resolve',(req,res)=>{
@@ -245,54 +245,6 @@ app.post('/municipal/:id/resolve',(req,res)=>{
 		if(error)throw error;
 		res.redirect(`/municipal/${id}/view`);
 	});
-});
-
-
-app.get('/municipal/:id/update',(req,res)=>{
-	const {id} = req.params;
-	//res.send('help');
-	const q='SELECT _status FROM complaints WHERE id=?'
-	connection.query(q,id,function(error,results,fields){
-			if(error)throw error;
-			if(results.length==0)return res.send('hola');
-			res.render('municipal/update',{id,status:results[0]._status});
-	});
-});
-
-app.post('/municipal/:id/update',(req,res)=>{
-	const {_status} = req.body;
-	const {id} = req.params;
-	//res.send(req.body._status);
-	const q='UPDATE complaints SET _status= ? where id=?';
-	connection.query(q,[_status,id],function(error,results,fields){
-			if(error)throw error;
-			//if(results.length==0)return res.send('hola');
-		//res.send('record updated');
-		//res.redirect('/municipal/:id')
-			res.redirect(`/municipal/${id}/update`);
-	});
-		// console.log(user);
-});
-
-app.get('/municipal/:id/write_review',(req,res)=>{
-	const {id}=req.params;
-	res.render('municipal/review',{id});
-});
-
-app.post('/municipal/:id/write_review',(req,res)=>{
-	const {report} = req.body;
-	const {id} = req.params;
-	//res.send(req.body._status);
-	const q='UPDATE complaints SET report= ? where ID=?';
-	connection.query(q,[report,id],function(error,results,fields){
-			if(error)throw error;
-			//if(results.length==0)return res.send('hola');
-		//res.send('record updated');
-		//res.redirect('/municipal/:id')
-		res.send('WRITTEN!!');
-		//	res.redirect(`/municipal/${id}/dashboard`);
-	});
-		// console.log(user);
 });
 
 // ADMIN ROUTES:-------------------------------------------
@@ -308,8 +260,12 @@ app.post('/admin/login',(req,res)=>{
 			if(results.length==0){
 				return res.redirect('/admin/login');
 			}
-			res.render('admin/dashboard');
+			res.redirect('/admin/dashboard');
 	});	
+})
+
+app.get('/admin/dashboard',(req,res)=>{
+	res.render('admin/dashboard');
 })
 
 app.get('/admin/addMunicipal',(req,res)=>{
@@ -345,6 +301,18 @@ app.post('/admin/addMunicipal',(req,res)=>{
 	}
 })
 
+app.get('/admin/complaint/flagged',(req,res)=>{
+	const q = 'SELECT * FROM complaints WHERE _status=2'
+	connection.query(q,function(error,results,fields){
+		if(error){
+			return res.send(error.sqlMessage);
+		}
+		console.log(results);
+		// res.send(results);
+		return res.render('admin/flaggedComplaints',{complaints : results})
+	});
+})
+
 app.get('/admin/complaint/all',(req,res)=>{
 	connection.query('SELECT * FROM complaints',function(error,results,fields){
 		if(error){
@@ -356,19 +324,46 @@ app.get('/admin/complaint/all',(req,res)=>{
 	});
 })
 
-app.get('/admin/complaint/:id',(req,res)=>{
-	const {id} = req.params;
+app.get('/admin/complaint/:cID',(req,res)=>{
+	const {cID} = req.params;
 	// return res.send(id);
-	const q= 'select complaints.*, department.name AS dept  from complaints join department on complaints.deptID = department.ID WHERE complaints.ID = ?'
-	connection.query(q,id,function(error,results,fields){
+	const q= 'SELECT complaints.*, department.name AS dept  from complaints join department on complaints.deptID = department.ID WHERE complaints.ID = ?'
+	connection.query(q,cID,function(error,results,fields){
 		if(error){
 			return res.send(error.sqlMessage);
 		}
-		console.log(results);
-		// res.send(results);
 		return res.render('admin/viewComplaint',{complaint : results[0]})
 	});
 })
+
+app.get('/admin/complaint/:cID/discard',(req,res)=>{
+	const {cID} = req.params;
+	res.render('admin/writeReport',{cID});
+});
+app.post('/admin/complaint/:cID/discard',(req,res)=>{
+	const {cID} = req.params;
+	const {report} = req.body;
+	// return res.send(report);
+	const q='UPDATE complaints SET _status= 3, report = ? where id=?';
+	connection.query(q,[report,cID],function(error,results,fields){
+		if(error){
+			return res.send(error.sqlMessage);
+		}
+		return res.redirect('/admin/complaint/all');
+	});
+});
+
+app.post('/admin/complaint/:cID/restore',(req,res)=>{
+	const {cID} = req.params;
+	const q='UPDATE complaints SET _status= 4 where id=?';
+	connection.query(q,cID,function(error,results,fields){
+		if(error){
+			return res.send(error.sqlMessage);
+		}
+		return res.redirect('/admin/complaint/all');
+	});
+})
+
 
 // ERROR 404 ROUTE:----------------------------------------
 app.get('*',(req,res)=>{
