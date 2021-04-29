@@ -173,6 +173,16 @@ app.get('/user/:uID/complaint/:cID',(req,res)=>{
 			// res.redirect(`/user/${results[0].id}/dashboard`);
 	});	
 })
+app.get('/user/:uID/complaint_delete/:cID',(req,res)=>{
+	const {cID}= req.params;
+	const q = 'DELETE FROM complaints WHERE complaints.ID=?;';
+	connection.query(q,cID,function(error,results,fields){
+		if(error)throw error;
+		console.log("deleted");
+		res.send('deleted');
+	});
+
+});
 
 // MUNICIPAL ROUTES:---------------------------------------
 app.get('/municipal/login',(req,res)=>{	
