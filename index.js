@@ -140,7 +140,11 @@ app.post('/user/:id/addComplaint',(req,res)=>{
 
 app.get('/user/:id/myComplaints',(req,res)=>{
 	const {id} = req.params;
-	const q = 'SELECT * FROM complaints WHERE userID = ?;SELECT fName FROM users WHERE ID=?;';
+	const q =`SELECT complaints.*,department.name AS dept,CONCAT(users.fName," ",users.lName) AS userName FROM complaints 
+			  JOIN department ON complaints.deptID=department.ID 
+			  JOIN users ON users.ID=complaints.userID
+			  WHERE userID = ?;
+		      SELECT fName FROM users WHERE ID=?;`;
 	connection.query(q,[id,id],function(error,results,fields){
 			if(error)throw error;
 			res.render('user/myComplaints',{id,complaints:results[0],fName:results[1][0].fName});
@@ -168,7 +172,7 @@ app.get('/user/:uID/complaint_delete/:cID',(req,res)=>{
 	const q = 'DELETE FROM complaints WHERE complaints.ID=?;';
 	connection.query(q,cID,function(error,results,fields){
 		if(error)throw error;
-		res.redirect(`/user/${uID}/dashboard`);
+		res.redirect(`/user/${uID}/myComplaints`);
 	});
 
 });
