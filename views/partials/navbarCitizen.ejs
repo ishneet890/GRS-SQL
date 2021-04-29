@@ -6,16 +6,16 @@
 			</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav ml-auto">
-				<li class="nav-item mr-5">
+				<li class="nav-item mr-5 <%= curPath[3]==='allComplaints'?'active2':'' %>">
 					<a class="nav-link active" aria-current="page" href="/user/<%=id %>/allComplaints">All Complaints<i class="fas fa-question-circle"></i></a>
 				</li>
-				<li class="nav-item mr-5">
+				<li class="nav-item mr-5 <%= curPath[3]==='myComplaints'?'active2':'' %>">
 					<a class="nav-link active" aria-current="page" href="/user/<%=id %>/myComplaints">My Complaints<i class="fas fa-question-circle"></i></a>
 				</li>
-				<li class="nav-item mr-5">
+				<li class="nav-item mr-5 <%= curPath[3]==='addComplaint'?'active2':'' %>">
 					<a class="nav-link active" aria-current="page" href="/user/<%=id%>/addComplaint">Add Complaint<i class="fas fa-question-circle"></i></a>
 				</li>
-				<li class="nav-item mr-5">
+				<li class="nav-item mr-5 <%= curPath[3]==='dashboard'?'active2':'' %>">
 					<a class="nav-link active" aria-current="page" href="/user/<%=id%>/dashboard">Hi <%=fName%><i class="fas fa-question-circle"></i></a>
 				</li>
 			</ul>
