@@ -1,13 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Complaints</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	<div class="container-fluid ">
+		<a class="navbar-brand" href="/">GRS</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+			</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item mr-5">
+					<a class="nav-link active" aria-current="page" href="/user/<%=id %>/myComplaints">My Complaints<i class="fas fa-question-circle"></i></a>
+				</li>
+				<li class="nav-item mr-5">
+					<a class="nav-link active" aria-current="page" href="/user/<%=id%>/addComplaint">Add Complaint<i class="fas fa-question-circle"></i></a>
+				</li>
+				<li class="nav-item mr-5">
+					<a class="nav-link active" aria-current="page" href="/user/<%=id%>/dashboard">Hi <%=fName%><i class="fas fa-question-circle"></i></a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
 <h4>
-	Welcome User : <%= id %>
-</h4>
-<h4>
-	All Complaints asdf
+	Here are all your complaints:
 </h4>
 
 <% for(let comp of complaints){ %>
 	<li>
 		<%= comp.title %> | <a href="/user/<%=id%>/complaint/<%=comp.ID%>">View Details</a> | <a href="/user/<%=id%>/complaint_delete/<%=comp.ID%>">Withdraw Complaint</a>
 	</li>
-
 <% } %>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+</body>
+</html>
