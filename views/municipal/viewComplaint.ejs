@@ -1,61 +1,149 @@
-<h2>
-	Complaint id : <%= complaint.ID %>
-</h2>
+<!DOCTYPE html>
+<html lang="en">
 
-<ul>
-	<li>
-		<b>ID : </b><%=complaint.ID %>
-	</li>
-	<li>
-		<b>Department : </b><%=complaint.dept %>
-	</li>
-	<li>
-		<b>Area Code : </b><%=complaint.areaCode %>
-	</li>
-	<li>
-		<b>Title : </b><%=complaint.title %>
-	</li>
-	<li>
-		<b>Description : </b><%=complaint.description %>
-	</li>
+<head>
+	<style>
+		
+		.btn1,.btn2{
+  background-color:gray;
+  border: black;
+  color: black;
+  padding: 6px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 25px;
+  border-radius: 5px;
+  margin-top: 25px;
+  width: 300px;
+  height: 38px;
+  transition-duration: 0.4s;
+}
+.btn1:hover {
 	
-	<li>
-		<b>Status : </b> 
-		<%= ((complaint._status==0)?'Pending':''); %>
-		<% if(complaint._status==1){ %>
-			Resolved
-			<li>
-				<b>Report : </b> <%= complaint.report %>
-			</li>
-		<% } %>
-		<%= ((complaint._status==2)?'Marked As Inappropriate':''); %>
-		<% if(complaint._status==3){ %>
-			Inappropriate (Discarded)
-			<li>
-				<b>Report : </b> <%= complaint.report %>
-			</li>
-		<% } %>
-		<%= ((complaint._status==4)?'Pending (Marked Appropriate)':''); %>
-	</li>
-	
-	<li>
-		<b>Created At : </b> <%= complaint.createdAt %>
-	</li>
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+  background-color:gray;
+  color:white;
+}
+.btn2:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+  background-color: #707070;
+  color: white;
+}
+		.main{
+			background-image: url('/css/images/pic1.webp');
+			background-size: 905px 500px;
+			background-repeat: no-repeat;
+		}
+		table, th, td {
+		  border: 3px solid black;
+		  border-collapse: collapse;
+		}
+		th, td {
+			
+		  padding: 5px;
+		  text-align: left; 
+		  font-size: large;  
+		  font-style: normal; 
+		}
+		td{
+			font-weight:550;
+		}
+		th{
+			font-weight: bolder;
+			font-size: x-large;
+		}
+		.heading{
+			font-size: larger;
+		}
+		.btn1,.btn2 {
+		
+display:inline-block;
+/* additional code */
+}
+#container button{
+	height: 50px;
+	text-align: center;   
+padding: 10px 24px;
+float:left;
+}
+.btn2{
+	position: relative;margin-left: 20px; 
+}
 
-	<br>
+
+		</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>View Complaint</title>
+  <link rel="stylesheet" href="css/font-awesome.min.css" />
+</head>
+<div class="ele">
+	<body  style="background-image: url('/css/images/pic1.jpg');">
+		<div class="heading">
+		<h1><u>Complaint Details for<i> Complaint ID : </i><%= complaint.ID %></u></h1>
+		</div> <br>
+		<div class="main">
+			<table  style="width:60%">
+				<tr>
+				  <th  style="height:50px;width:200px" bgcolor="grey"><label class="label1">Complaint ID : </label></th>
+				  <td style="height:50px;width:500px"><%=complaint.ID %></th>
+				</tr>
+				<tr>
+					<th style="height:50px;width:200px"><label class="label2">Department :      </label></th>
+					<td style="height:50px;width:500px"><%=complaint.dept %></th>
+				  </tr>
+				  <tr>
+					<th style="height:50px;width:200px" bgcolor="grey"><label class="label3">Area Code :       </label></th>
+					<td style="height:50px;width:500px"><%=complaint.areaCode %></th>
+				  </tr>
+				  <tr>
+					<th style="height:50px;width:200px"><label class="label4">Title :           </label4></th>
+					<td style="height:50px;width:500px"><%=complaint.title %></th>
+				  </tr>
+				  <tr>
+					<th style="height:50px;width:200px" bgcolor="grey"><label class="label5">Description : </label></th>
+					<td style="height:50px;width:500px"><%=complaint.description %></th>
+				  </tr>
+				  <tr>
+					<th style="height:50px;width:200px"><label class="label6">Status : </label></th>
+					<td style="height:50px;width:500px"><%= ((complaint._status==0)?'Pending':''); %>
+						<% if(complaint._status==1){ %>
+							Resolved
+						<% } %>
+						<%= ((complaint._status==2)?'Marked As Inappropriate':''); %>
+				<% if(complaint._status==3){ %>
+					Inappropriate (Discarded)
+				<% } %>
+				<%= ((complaint._status==4)?'Pending (Marked Appropriate)':''); %></th>
+		  </tr>
+		  <tr>
+			<th style="height:50px;width:200px" bgcolor="grey">
+				<label class="label7">Report : </label></th>
+				 <td style="height:50px;width:500px"><%= complaint.report %></td>
+				 </tr>
+		  <tr>
+			<th style="height:50px;width:200px" ><label class="label8">Created At : </label></th>
+			<td style="height:50px;width:500px"><%= complaint.createdAt %></th>
+		  </tr>
+		</table>
+	</div>
+</div>
 	
-	<% if(complaint._status==0 || complaint._status==4){ %>
-		<% if(complaint._status!=4){ %>
-			<form action="/municipal/<%=complaint.ID %>/flag" method="POST">
-				<button>
-					Flag Inappropriate
-				</button>
+	<div id="container">
+		  <% if(complaint._status==0 || complaint._status==4){ %>
+			<% if(complaint._status!=4){ %>
+				<form action="/municipal/<%=complaint.ID %>/flag" method="POST">
+					<button class="btn1" type="submit"  name="button" id="submit">Flag Inappropriate</button>
+				</form>
+			<% } %>
+	
+			<form action="/municipal/<%=complaint.ID %>/resolve" method="GET">
+				<button class="btn2"  type="submit" name="button" id="submit">Resolve</button>
 			</form>
 		<% } %>
-		<form action="/municipal/<%=complaint.ID %>/resolve" method="GET">
-			<button>
-				Resolve
-			</button>
-		</form>
-	<% } %>
-</ul>
+	</div>
+	
+
+</body>
+</html>
