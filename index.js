@@ -138,6 +138,18 @@ app.post('/user/:id/addComplaint',(req,res)=>{
 		// console.log(user);
 })
 
+app.get('/user/:id/allComplaints',(req,res)=>{
+	const {id} = req.params;
+	const q =`SELECT complaints.*,department.name AS dept,CONCAT(users.fName," ",users.lName) AS userName FROM complaints 
+			  JOIN department ON complaints.deptID=department.ID 
+			  JOIN users ON users.ID=complaints.userID;
+		      SELECT fName FROM users WHERE ID=?;`;
+	connection.query(q,[id,id],function(error,results,fields){
+			if(error)throw error;
+			res.render('user/allComplaints',{id,complaints:results[0],fName:results[1][0].fName});
+	});	
+})
+
 app.get('/user/:id/myComplaints',(req,res)=>{
 	const {id} = req.params;
 	const q =`SELECT complaints.*,department.name AS dept,CONCAT(users.fName," ",users.lName) AS userName FROM complaints 

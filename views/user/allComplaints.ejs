@@ -3,14 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Complaints</title>
+    <title>All Complaints</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<link rel="stylesheet" href="/css/cards.css">
 </head>
 <body>
 <%-include('../partials/navbarCitizen.ejs')%>
 
-<!-- Pending Complaints (Status=0)  -->
+<!-- Pending Complaints (Status=0) -->
 <div class="team-boxed">
     <div class="container">
         <div class="intro">
@@ -29,9 +29,11 @@
                             <form action="/user/<%=complaint.userID%>/complaint/<%= complaint.ID %>" method="GET" class="p-2">
                                 <button class="btn btn-success">View</button>
                             </form>
-							<form action="/user/<%=id%>/complaint_delete/<%=complaint.ID%>" method="GET" class="p-2">
-                                <button class="btn btn-danger">Delete</button>
-                            </form>
+                            <% if(id==complaint.userID){ %>
+                                <form action="/user/<%=id%>/complaint_delete/<%=complaint.ID%>" method="GET" class="p-2">
+                                    <button class="btn btn-danger">Delete</button>
+                                </form>
+                            <%}%>
                         </div>
                     </div>
                 </div>
@@ -58,9 +60,11 @@
                             <form action="/user/<%=complaint.userID%>/complaint/<%= complaint.ID %>" method="GET" class="p-2">
                                 <button class="btn btn-success">View</button>
                             </form>
-							<form action="/user/<%=id%>/complaint_delete/<%=complaint.ID%>" method="GET" class="p-2">
-                                <button class="btn btn-danger">Delete</button>
-                            </form>
+                            <% if(id===complaint.userID){%>
+                                <form action="/user/<%=id%>/complaint_delete/<%=complaint.ID%>" method="GET" class="p-2">
+                                    <button class="btn btn-danger">Delete</button>
+                                </form>
+                            <%}%>
                         </div>
                     </div>
                 </div>
@@ -87,9 +91,11 @@
                             <form action="/user/<%=complaint.userID%>/complaint/<%= complaint.ID %>" method="GET" class="p-2">
                                 <button class="btn btn-success">View</button>
                             </form>
-							<form action="/user/<%=id%>/complaint_delete/<%=complaint.ID%>" method="GET" class="p-2">
-                                <button class="btn btn-danger">Delete</button>
-                            </form>
+                            <% if(id===complaint.userID){%>
+                                <form action="/user/<%=id%>/complaint_delete/<%=complaint.ID%>" method="GET" class="p-2">
+                                    <button class="btn btn-danger">Delete</button>
+                                </form>
+                            <%}%>
                         </div>
                     </div>
                 </div>
@@ -116,9 +122,11 @@
                             <form action="/user/<%=complaint.userID%>/complaint/<%= complaint.ID %>" method="GET" class="p-2">
                                 <button class="btn btn-success">View</button>
                             </form>
-							<form action="/user/<%=id%>/complaint_delete/<%=complaint.ID%>" method="GET" class="p-2">
-                                <button class="btn btn-danger">Delete</button>
-                            </form>
+                            <% if(id===complaint.userID){%>
+                                <form action="/user/<%=id%>/complaint_delete/<%=complaint.ID%>" method="GET" class="p-2">
+                                    <button class="btn btn-danger">Delete</button>
+                                </form>
+                            <%}%>
                         </div>
                     </div>
                 </div>
