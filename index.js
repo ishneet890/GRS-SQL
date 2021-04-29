@@ -96,23 +96,20 @@ app.post('/user/login',(req,res)=>{
 
 app.get('/user/:id/dashboard',(req,res)=>{
 	const {id} = req.params;
-	const q = 'SELECT description FROM complaints WHERE userID = ?';
-	let complaints = [];
+	const q = 'SELECT fName FROM users WHERE ID=?';
 	connection.query(q,id,function(error,results,fields){
 			if(error)throw error;
-			// user = results[0];
-			// console.log(results);
-			// res.send(results);
-			res.render('user/dashboard',{id,complaints:results});
-			// const str = `/user/${results[0].id}/dashboard`;
-			// res.send(str);
-			// res.redirect(`/user/${results[0].id}/dashboard`);
+			res.render('user/dashboard',{id,fName:results[0].fName});
 	});	
 })
 
 app.get('/user/:id/addComplaint',(req,res)=>{
 	const {id} = req.params;
-	res.render('user/addComplaint',{id});
+	const q = 'SELECT fName FROM users WHERE ID=?';
+	connection.query(q,id,function(error,results,fields){
+			if(error)throw error;
+			res.render('user/addComplaint',{id,fName:results[0].fName});
+	});		
 })
 
 app.post('/user/:id/addComplaint',(req,res)=>{
@@ -143,17 +140,10 @@ app.post('/user/:id/addComplaint',(req,res)=>{
 
 app.get('/user/:id/myComplaints',(req,res)=>{
 	const {id} = req.params;
-	const q = 'SELECT * FROM complaints WHERE userID = ?';
-	connection.query(q,id,function(error,results,fields){
+	const q = 'SELECT * FROM complaints WHERE userID = ?;SELECT fName FROM users WHERE ID=?;';
+	connection.query(q,[id,id],function(error,results,fields){
 			if(error)throw error;
-			// user = results[0];
-			// console.log(results);
-			// res.send(results);
-			console.log(results);
-			res.render('user/myComplaints',{id,complaints:results});
-			// const str = `/user/${results[0].id}/dashboard`;
-			// res.send(str);
-			// res.redirect(`/user/${results[0].id}/dashboard`);
+			res.render('user/myComplaints',{id,complaints:results[0],fName:results[1][0].fName});
 	});	
 })
 
@@ -174,12 +164,11 @@ app.get('/user/:uID/complaint/:cID',(req,res)=>{
 	});	
 })
 app.get('/user/:uID/complaint_delete/:cID',(req,res)=>{
-	const {cID}= req.params;
+	const {uID,cID}= req.params;
 	const q = 'DELETE FROM complaints WHERE complaints.ID=?;';
 	connection.query(q,cID,function(error,results,fields){
 		if(error)throw error;
-		console.log("deleted");
-		res.send('deleted');
+		res.redirect(`/user/${uID}/dashboard`);
 	});
 
 });
