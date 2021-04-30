@@ -1,26 +1,19 @@
-<h1>
-	MUNICIPALITY DASHBOARD
-</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Municipal Dashboard</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="/css/navbarActive.css">   
+</head>
+<body>
+<%-include('../partials/navbarMunicipal.ejs')%>
 
-<h2>
-	DEPARTMENT : <%=dept%>
-</h2>
+<h1>Welcome to Municipal Dashboard!</h1>
+<h2>Department: <%=dept%></h2>
 
-<h3>
-	Welcome Employee ID : <%=id%>
-</h3>
-
-<p>
-	 There are <b><%=complaints.length%></b> complaints in the system corresponding to your id.
-</p>
-
-<% for(let comp of complaints){ %>
-	<li>
-		
-			<b>Complaint id</b> = <%=comp.ID%>,
-		
-		 
-		   <b>Complaint Title</b> = <%=comp.title%>
-		<a href="/municipal/<%=comp.ID%>/view">View Details</a>
-	</li>
-<% } %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -212,25 +212,26 @@ app.post('/municipal/login',(req,res)=>{
 
 app.get('/municipal/:id/dashboard',(req,res)=>{
 	const {id} = req.params;
-	const q = 'select DISTINCT deptID,name from municipal join department on municipal.deptID = department.ID WHERE municipal.id = ?';
-	let complaints = [];
+	const q=`SELECT department.name AS dept,municipal.fName FROM municipal 
+			 JOIN department ON department.ID=municipal.deptID
+			 WHERE municipal.ID=?`;
 	connection.query(q,id,function(error,results,fields){
 		if(error)throw error;
-		// // if(results.length==0)return res.send('hola');
-		// res.render('municipal/dashboard',{id,complaints:results});
-		// return res.send(results);
-		const deptID = results[0].deptID;
-		const dept = results[0].name;
-			const q1 = 'SELECT * FROM complaints WHERE deptID = ?';
-			connection.query(q1,deptID,function(error1,results1,fields1){
-				if(error1)throw error1;
-				// res.send(results1);
-				// if(results.length==0)return res.send('hola');
-				res.render('municipal/dashboard',{dept,id,complaints:results1});
-		});
+		res.render('municipal/dashboard',{id,dept:results[0].dept,fName:results[0].fName});
 	});
 });
 
+app.get('/municipal/:id/myComplaints',(req,res)=>{
+	const {id} = req.params;
+	const q=`SELECT complaints.* FROM municipal,complaints 
+			 WHERE complaints.deptID=municipal.deptID AND municipal.ID=?;
+			 SELECT fName,department.name AS dept FROM municipal
+			 JOIN department ON department.ID=municipal.deptID WHERE municipal.ID=?;`;
+	connection.query(q,[id,id],function(error,results,fields){
+		if(error)throw error;
+		res.render('municipal/myComplaints',{id,complaints:results[0],fName:results[1][0].fName,dept:results[1][0].dept});
+	});
+})
 
 app.get('/municipal/:id/view',(req,res)=>{
 	const {id} = req.params;
