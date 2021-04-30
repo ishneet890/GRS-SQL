@@ -8,17 +8,17 @@
     <link rel="stylesheet" href="/css/addMunicipal.css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="https://kit.fontawesome.com/6d1a88741d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/navbarActive.css"> 
 </head>
 <body>
+<%-include('../partials/navbarAdmin.ejs')%>
 <div class="container register">
     <div class="row">
         <div class="col-md-3 register-left">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMnLXuTb5DJaDCMk87axKsMxBpB_jGpAiUkg&usqp=CAU" alt="">
             <div>
                 <h3>Changed Your Mind?</h3>
-                <!-- <p>It's your right to be heard!</p> -->
 				<form action="/admin/dashboard">
-					<!-- <input type="submit" class="btnRegister"  value="Go Back"/> -->
 					<button class="btnBack">Go Back</button>
 				</form>
             </div>

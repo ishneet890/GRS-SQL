@@ -147,7 +147,9 @@ app.get('/user/:id/allComplaints',(req,res)=>{
 	const q =`SELECT complaints.*,department.name AS dept,CONCAT(users.fName," ",users.lName) AS userName FROM complaints 
 			  JOIN department ON complaints.deptID=department.ID 
 			  JOIN users ON users.ID=complaints.userID;
+
 		      SELECT fName FROM users WHERE ID=?;`;
+
 	connection.query(q,[id,id],function(error,results,fields){
 			if(error)throw error;
 			res.render('user/allComplaints',{id,complaints:results[0],fName:results[1][0].fName});
@@ -160,7 +162,9 @@ app.get('/user/:id/myComplaints',(req,res)=>{
 			  JOIN department ON complaints.deptID=department.ID 
 			  JOIN users ON users.ID=complaints.userID
 			  WHERE userID = ?;
+
 		      SELECT fName FROM users WHERE ID=?;`;
+
 	connection.query(q,[id,id],function(error,results,fields){
 			if(error)throw error;
 			res.render('user/myComplaints',{id,complaints:results[0],fName:results[1][0].fName});
@@ -223,10 +227,14 @@ app.get('/municipal/:id/dashboard',(req,res)=>{
 
 app.get('/municipal/:id/myComplaints',(req,res)=>{
 	const {id} = req.params;
-	const q=`SELECT complaints.* FROM municipal,complaints 
+	const q=`SELECT complaints.*,CONCAT(users.fName," ",users.lName) AS userName,department.name AS dept FROM municipal,complaints 
+			 JOIN users ON complaints.userID=users.ID
+			 JOIN department ON department.ID=complaints.deptID
 			 WHERE complaints.deptID=municipal.deptID AND municipal.ID=?;
+
 			 SELECT fName,department.name AS dept FROM municipal
 			 JOIN department ON department.ID=municipal.deptID WHERE municipal.ID=?;`;
+
 	connection.query(q,[id,id],function(error,results,fields){
 		if(error)throw error;
 		res.render('municipal/myComplaints',{id,complaints:results[0],fName:results[1][0].fName,dept:results[1][0].dept});
@@ -277,11 +285,11 @@ app.post('/admin/login',(req,res)=>{
 	const {email,pass_word} = req.body;
 	const q = 'SELECT * FROM admin WHERE email = ? AND pass_word = ?';
 	connection.query(q,[email,pass_word],function(error,results,fields){
-			if(error)throw error;
-			if(results.length==0){
-				return res.redirect('/admin/login');
-			}
-			res.redirect('/admin/dashboard');
+		if(error)throw error;
+		if(results.length==0){
+			return res.redirect('/admin/login');
+		}
+		res.redirect('/admin/dashboard');
 	});	
 })
 
@@ -321,32 +329,29 @@ app.post('/admin/addMunicipal',(req,res)=>{
 	}
 })
 
-app.get('/admin/complaint/flagged',(req,res)=>{
-	const q = 'SELECT * FROM complaints WHERE _status=2'
+app.get('/admin/flaggedComplaints',(req,res)=>{
+	const q=`SELECT complaints.*,CONCAT(users.fName," ",users.lName) AS userName,department.name AS dept FROM complaints
+			 JOIN users ON users.ID=complaints.userID
+			 JOIN department ON department.ID=complaints.deptID
+			 WHERE _status=2`;
 	connection.query(q,function(error,results,fields){
-		if(error){
-			return res.send(error.sqlMessage);
-		}
-		console.log(results);
-		// res.send(results);
-		return res.render('admin/flaggedComplaints',{complaints : results})
+		if(error)throw error;
+		res.render('admin/flaggedComplaints',{complaints : results})
 	});
 })
 
-app.get('/admin/complaint/all',(req,res)=>{
-	connection.query('SELECT * FROM complaints',function(error,results,fields){
-		if(error){
-			return res.send(error.sqlMessage);
-		}
-		console.log(results);
-		// res.send(results);
-		return res.render('admin/allComplaints',{complaints : results})
+app.get('/admin/allComplaints',(req,res)=>{
+	const q=`SELECT complaints.*,CONCAT(users.fName," ",users.lName) AS userName,department.name AS dept FROM complaints
+			 JOIN users ON users.ID=complaints.userID
+			 JOIN department ON department.ID=complaints.deptID`;
+	connection.query(q,function(error,results,fields){
+		if(error)throw error;
+		res.render('admin/allComplaints',{complaints : results})
 	});
 })
 
 app.get('/admin/complaint/:cID',(req,res)=>{
 	const {cID} = req.params;
-	// return res.send(id);
 	const q= 'SELECT complaints.*, department.name AS dept  from complaints join department on complaints.deptID = department.ID WHERE complaints.ID = ?'
 	connection.query(q,cID,function(error,results,fields){
 		if(error){
@@ -360,6 +365,7 @@ app.get('/admin/complaint/:cID/discard',(req,res)=>{
 	const {cID} = req.params;
 	res.render('admin/writeReport',{cID});
 });
+
 app.post('/admin/complaint/:cID/discard',(req,res)=>{
 	const {cID} = req.params;
 	const {report} = req.body;
