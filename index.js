@@ -375,7 +375,7 @@ app.post('/admin/complaint/:cID/discard',(req,res)=>{
 		if(error){
 			return res.send(error.sqlMessage);
 		}
-		return res.redirect('/admin/complaint/all');
+		return res.redirect('/admin/allComplaints');
 	});
 });
 
@@ -386,7 +386,7 @@ app.post('/admin/complaint/:cID/restore',(req,res)=>{
 		if(error){
 			return res.send(error.sqlMessage);
 		}
-		return res.redirect('/admin/complaint/all');
+		return res.redirect('/admin/allComplaints');
 	});
 })
 
