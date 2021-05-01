@@ -1,0 +1,23 @@
+body{
+    background-position: center;
+    background-size: cover;
+    font-family: sans-serif;
+  }
+  h1{
+    color: white;
+    font-size: 1.8rem;
+    padding-top: 14px;
+    font-family: 'Kiwi Maru', serif;
+    font-weight: lighter;
+  }
+  
+  .heading{
+    width: 600px;
+    height: 70px;
+    background-color: rgb(0,0,0,0.2);
+    margin-top: 90px;
+    color:white,
+    padding: 10px 0px 10px 0px;
+    text-align: center;
+    border-radius: 25px 25px 0px 0px;
+  }  
