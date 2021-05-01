@@ -52,6 +52,10 @@ app.get('/',(req,res)=>{
 	})
 })
 
+app.get('/about',(req,res)=>{
+	res.redirect('/');
+})
+
 // USER ROUTES:--------------------------------------------
 app.get('/user/signup',(req,res)=>{
 	res.render('user/signup');
