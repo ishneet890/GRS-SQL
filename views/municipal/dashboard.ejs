@@ -2,18 +2,21 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/municipaldash.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Municipal Dashboard</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="/css/navbarActive.css">   
 </head>
-<body>
+<body style="background-image: url('/css/images/pic3.jpg');">
 <%-include('../partials/navbarMunicipal.ejs')%>
-
-<h1>Welcome to Municipal Dashboard!</h1>
-<h2>Department: <%=dept%></h2>
-
+<center>
+    <div class="heading" color="white">
+<h1 style="color:white;">Welcome to Municipal Dashboard!</h1><br>
+<h3 style="color:white;">Department: <%=dept%></h3>
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+</center>
 </body>
 </html>
