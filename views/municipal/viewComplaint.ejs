@@ -144,7 +144,7 @@ float:left;
 	</div>
 </div>
 	
-	<div id="container">
+	<div id="container" style="align-items: center; padding-left: 200px">
 		  <% if(complaint._status==0 || complaint._status==4){ %>
 			<% if(complaint._status!=4){ %>
 				<form action="/municipal/<%=complaint.ID %>/flag" method="POST">

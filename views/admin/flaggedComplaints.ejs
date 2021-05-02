@@ -28,7 +28,7 @@
                         <p class="description">Issued By <%= complaint.userName %></p>
                         <p class="description">Area Code: <%=complaint.areaCode%></p>
                         <div class="d-flex flex-row justify-content-center">
-                            <form action="/admin/complaint/<%=complaint.ID%>" method="GET" class="p-2">
+                            <form target="_blank" action="/admin/complaint/<%=complaint.ID%>" method="GET" class="p-2">
                                 <button class="btn btn-success">View</button>
                             </form>
                         </div>

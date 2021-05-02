@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<style>
+		.body{
+			background-image: url('/css/images/pic4.jpg');
+			background-size:cover;
+			background-repeat: no-repeat;
+		}
+		.center{
+			background-image: url('/css/images/pic1.webp');
+			background-size: 905px 500px;
+			background-repeat: no-repeat;
+			
+		}
+		table, th, td {
+		  border: 3px solid black;
+		  border-collapse: collapse;
+		}
+		th, td {
+			
+		  padding: 5px;
+		  text-align: left; 
+		  font-size: larger;  
+		  font-style: normal; 
+		}
+		td{
+			font-weight:550;
+		}
+		th{
+			font-weight: bolder;
+			font-size: x-large;
+		}
+		.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+		.heading{
+			text-align: center;
+			font-size: larger;
+		}
+		</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Department Codes</title>
+  <link rel="stylesheet" href="css/font-awesome.min.css" />
+</head>
+<div class="ele">
+<body class="body">
+	
+	<div class="heading">
+	<h1><u>Department Codes</u></h1>
+	</div> <br>
+	<div class="main">
+	<table class="center" style="width:60%">
+        <tr>
+			<th style="height:50px;width:200px" bgcolor="lightblue"><label class="label2"> Department ID  </label></th>
+			<td style="height:50px;width:500px"bgcolor="lightblue">Department Name </th>
+		  </tr>
+        <% for(department of departments){ %>
+		<tr>
+			<th style="height:50px;width:200px" bgcolor="lightblue"><label class="label2"><%= department.ID %>      </label></th>
+			<td style="height:50px;width:500px"bgcolor="lightblue"><%=department.name%></th>
+		  </tr>
+        <% } %>
+    </table>
+</div>
+</div>
+</body>
+</html>

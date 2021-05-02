@@ -111,11 +111,22 @@ app.get('/user/:id/dashboard',(req,res)=>{
 	});	
 })
 
+app.get('/department/codes',(req,res)=>{
+	const q = 'SELECT * FROM department';
+	connection.query(q,function(error,results,fields){
+			if(error)throw error;
+			// res.send(results);
+			res.render('departmentCodes',{departments : results});
+	});	
+})
+
 app.get('/user/:id/addComplaint',(req,res)=>{
 	const {id} = req.params;
 	const q = 'SELECT fName FROM users WHERE ID=?';
 	connection.query(q,id,function(error,results,fields){
-			if(error)throw error;
+			if(error){
+				return res.send(error);
+			}
 			res.render('user/addComplaint',{id,fName:results[0].fName});
 	});		
 })
@@ -170,7 +181,9 @@ app.get('/user/:id/myComplaints',(req,res)=>{
 		      SELECT fName FROM users WHERE ID=?;`;
 
 	connection.query(q,[id,id],function(error,results,fields){
-			if(error)throw error;
+			if(error){
+				return res.send(error);
+			}
 			res.render('user/myComplaints',{id,complaints:results[0],fName:results[1][0].fName});
 	});	
 })
@@ -180,11 +193,12 @@ app.get('/user/:uID/complaint/:cID',(req,res)=>{
 	// const q = 'SELECT * FROM complaints WHERE ID = ?';
 	const q= 'select complaints.*, department.name AS dept  from complaints join department on complaints.deptID = department.ID WHERE complaints.ID = ?'
 	connection.query(q,cID,function(error,results,fields){
-			if(error)throw error;
-			// user = results[0];
-			// console.log(results);
-			// res.send(results);
-			// res.send(results[0]);
+			if(error){
+				res.send(error);
+			}
+			if(results.length==0){
+				return res.send("Requested Complaint not found");
+			}
 			res.render('user/viewComplaint',{complaint:results[0]});
 			// const str = `/user/${results[0].id}/dashboard`;
 			// res.send(str);
@@ -195,7 +209,9 @@ app.get('/user/:uID/complaint_delete/:cID',(req,res)=>{
 	const {uID,cID}= req.params;
 	const q = 'DELETE FROM complaints WHERE complaints.ID=?;';
 	connection.query(q,cID,function(error,results,fields){
-		if(error)throw error;
+		if(error){
+			return res.send(error);
+		}
 		res.redirect(`/user/${uID}/myComplaints`);
 	});
 
@@ -210,7 +226,9 @@ app.post('/municipal/login',(req,res)=>{
 	const {email,pass_word} = req.body;
 	const q = 'SELECT * FROM municipal WHERE email = ? AND pass_word = ?';	
 	connection.query(q,[email,pass_word],function(error,results,fields){
-		if(error)throw error;
+		if(error){
+			res.send(error);
+		}
 		if(results.length==0){
 			return res.redirect('/municipal/login');
 		}
@@ -224,7 +242,9 @@ app.get('/municipal/:id/dashboard',(req,res)=>{
 			 JOIN department ON department.ID=municipal.deptID
 			 WHERE municipal.ID=?`;
 	connection.query(q,id,function(error,results,fields){
-		if(error)throw error;
+		if(error){
+			res.send(error);
+		}
 		res.render('municipal/dashboard',{id,dept:results[0].dept,fName:results[0].fName});
 	});
 });
@@ -240,7 +260,9 @@ app.get('/municipal/:id/myComplaints',(req,res)=>{
 			 JOIN department ON department.ID=municipal.deptID WHERE municipal.ID=?;`;
 
 	connection.query(q,[id,id],function(error,results,fields){
-		if(error)throw error;
+		if(error){
+			res.send(error);
+		}
 		res.render('municipal/myComplaints',{id,complaints:results[0],fName:results[1][0].fName,dept:results[1][0].dept});
 	});
 })
@@ -250,7 +272,9 @@ app.get('/municipal/:id/view',(req,res)=>{
 	// const q='SELECT * FROM complaints WHERE ID=?'
 	const q='select complaints.*, department.name AS dept  from complaints join department on complaints.deptID = department.ID WHERE complaints.ID = ?'
 	connection.query(q,id,function(error,results,fields){
-			if(error)throw error;
+			if(error){
+				res.send(error);
+			}
 			if(results.length==0)return res.send('hola');
 			res.render('municipal/viewComplaint',{complaint:results[0]});
 	});
@@ -260,7 +284,9 @@ app.post('/municipal/:id/flag',(req,res)=>{
 	const {id} = req.params;
 	const q  = 'UPDATE complaints SET _status= 2 where id=?';
 	connection.query(q,id,function(error,results,fields){
-		if(error)throw error;
+		if(error){
+			res.send(error);
+		}
 		res.redirect(`/municipal/${id}/view`);
 	});
 });
@@ -275,7 +301,9 @@ app.post('/municipal/:id/resolve',(req,res)=>{
 	const {report} = req.body;
 	const q  = 'UPDATE complaints SET _status= 1, report = ? WHERE id=?';
 	connection.query(q,[report,id],function(error,results,fields){
-		if(error)throw error;
+		if(error){
+			res.send(error);
+		}
 		res.redirect(`/municipal/${id}/view`);
 	});
 });
@@ -289,7 +317,9 @@ app.post('/admin/login',(req,res)=>{
 	const {email,pass_word} = req.body;
 	const q = 'SELECT * FROM admin WHERE email = ? AND pass_word = ?';
 	connection.query(q,[email,pass_word],function(error,results,fields){
-		if(error)throw error;
+		if(error){
+			res.send(error);
+		}
 		if(results.length==0){
 			return res.redirect('/admin/login');
 		}
@@ -321,7 +351,7 @@ app.post('/admin/addMunicipal',(req,res)=>{
 	try{
 		connection.query('INSERT INTO municipal SET ?',user,function(error,results,fields){
 			if(error){
-				console.log(error.sqlMessage)
+				console.log(error.sqlMessage);
 				return res.redirect('/admin/addMunicipal');
 			}
 			return res.redirect('/admin/dashboard');
@@ -339,7 +369,9 @@ app.get('/admin/flaggedComplaints',(req,res)=>{
 			 JOIN department ON department.ID=complaints.deptID
 			 WHERE _status=2`;
 	connection.query(q,function(error,results,fields){
-		if(error)throw error;
+		if(error){
+			res.send(error);
+		}
 		res.render('admin/flaggedComplaints',{complaints : results})
 	});
 })
