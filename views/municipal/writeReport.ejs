@@ -1,7 +1,31 @@
-<h2>
-    Write Report
-</h2>
-<form action ="/municipal/<%=cID%>/resolve" method="post">
-    <textarea name="report"></textarea>
-    <button>submit</button>
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<title>
+		Write Report | Municipal
+	</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="/css/addcomplaint.css">
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300&display=swap" rel="stylesheet">
+	  
+</head>
+<body style="background-image: url('/css/images/pic3.jpg');">
+    <center>
+		<div class="heading">
+				<h1>Complaint Report</h1>
+		  </div>
+
+<div class="main">
+<form action="/municipal/<%=cID%>/resolve" method="POST">
+	<textarea class="input1" type="text" name="report" id="report" rows="7" cols="50"></textarea>
+	<br>
+	<button class="btn" type="submit" name="button" id="submit">Submit</button>
 </form>
+</div><!--main-->
+</center>
+</body>
+</html>
+
+<%- include('../partials/footer.ejs') %>
