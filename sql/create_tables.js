@@ -5,7 +5,7 @@ USE dbms;
 -- USERS TABLE:
 CREATE TABLE IF NOT EXISTS users(
     ID INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(50),
+    email VARCHAR(50) UNIQUE NOT NULL,
     pass_word VARCHAR(50),  
     fName VARCHAR(50),
     lName VARCHAR(50),
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS municipal(
     fName VARCHAR(50),
     lName VARCHAR(50),
     age VARCHAR(50),
-    email VARCHAR(50),
+    email VARCHAR(50) UNIQUE NOT NULL,
     pass_word VARCHAR(50),
     gender VARCHAR(50),
     phone VARCHAR(50),
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS complaints(
 -- ADMIN TABLE
 CREATE TABLE IF NOT EXISTS admin (
     ID INT PRIMARY KEY AUTO_INCREMENT,
-    email VARCHAR(255),
+    email VARCHAR(255) UNIQUE NOT NULL,
     pass_word VARCHAR(255)
 );
 `;
