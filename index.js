@@ -1,7 +1,7 @@
 const express = require('express');
 const mysql = require('mysql');
 const path=require('path');
-const sql_password=require('D:/DBMS/password.js');
+const sql_password='pass';
 const create_tables_query=require('./sql/create_tables');
 const app = express();
 const port=3000;
@@ -11,7 +11,7 @@ const port=3000;
 const connection = mysql.createConnection({
 	host : 'localhost',
 	user : 'root',
-	password: sql_password,
+	password: 'pass',
 	multipleStatements : true
 });
 connection.connect(function(err) {
@@ -40,7 +40,7 @@ app.use((req,res,next)=>{
 //ROUTES:
 
 app.listen(port,()=>{
-	console.log(`Port ${port} open`);
+	console.log(`Port http://localhost:${port}/ open`);
 })
 
 app.get('/',(req,res)=>{
@@ -73,11 +73,28 @@ app.post('/user/signup',(req,res)=>{
 		phone : phone,
 		address : address
 	}
+	
 	try{
-		connection.query('INSERT INTO users SET ?',user,function(error,results,fields){
-			if(error)throw error;
-			res.redirect('/user/login');
-		});
+		const q= 'SELECT * FROM users WHERE email= ?';
+		const query = connection.query(q,[email],function(error,results,fields){
+		console.log(results);
+		if(error)throw error;
+		if(results.length >= 1)
+		{
+			console.log("email id already exits!!");
+			console.log(results);
+			return res.redirect('/user/signup');
+
+		}
+		else
+		{
+			connection.query('INSERT INTO users SET ?',user,function(error,results,fields){
+				if(error)throw error;
+				res.redirect('/user/login');
+			});
+		}
+	});
+		
 	}
 	catch(err){
 		console.log(err);
