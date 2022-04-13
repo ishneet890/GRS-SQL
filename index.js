@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql');
 const path=require('path');
@@ -5,7 +6,9 @@ const sql_password='pass';
 const create_tables_query=require('./sql/create_tables');
 const app = express();
 const port=3000;
-
+const passport = require('passport');
+var session = require('express-session');
+require('./passport-setup')
 // --------------------------------------------------------
 //SQL CONNECTION:
 const connection = mysql.createConnection({
@@ -34,6 +37,9 @@ app.use((req,res,next)=>{
 	res.locals.curPath = req.path.split('/');
 	next();
 })
+app.use(session({ secret: 'SECRET' }));
+app.use(passport.initialize());
+app.use(passport.session());
 // --------------------------------------------------------
 
 // --------------------------------------------------------
@@ -51,6 +57,79 @@ app.get('/',(req,res)=>{
 		res.render('homepage',{totalUsers});
 	})
 })
+
+const isLoggedIn = (req, res, next) => {
+    if (req.user) {
+        next();
+    } else {
+        res.sendStatus(401);
+    }
+}
+
+app.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/failed' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/google-redirect');
+  }
+);
+app.get('/failed', (req, res) => res.send('You Failed to log in!'))
+
+app.get('/google-redirect', isLoggedIn, (req, res) => {
+
+	email=req.user.emails[0].value
+	pass_word='google'
+	fName=req.user.given_name
+	lName=req.user.family_name
+	age=30
+	occupation='student'
+	gender='female'
+	phone='1234567890'
+	address='abc'
+
+	let user = {
+		email : email,
+		pass_word : pass_word,
+		fName : fName,
+		lName : lName,
+		age : age,
+		occupation : occupation,
+		gender : gender,
+		phone : phone,
+		address : address
+	}
+
+
+	try{
+		const q= 'SELECT * FROM users WHERE email= ?';
+		const query = connection.query(q,[email],function(error,results,fields){
+		console.log(results);
+		if(error)throw error;
+		if(results.length >= 1)
+		{
+			//console.log("email id already exits!!");
+			//res.status(400).json({error: "User with this email already exists"})
+			res.redirect(`/user/${results[0].ID}/dashboard`);
+
+		}
+		else
+		{
+			connection.query('INSERT INTO users SET ?',user,function(error,results,fields){
+				if(error)throw error;
+				res.redirect(`/user/${results[0].id}/dashboard`);
+			});
+		}
+	});
+		
+	}
+	catch(err){
+		console.log(err);
+		res.redirect('/user/signup');
+	}
+
+	
+})
+
 
 app.get('/about',(req,res)=>{
 	res.redirect('/');
@@ -82,7 +161,7 @@ app.post('/user/signup',(req,res)=>{
 		if(results.length >= 1)
 		{
 			console.log("email id already exits!!");
-			console.log(results);
+			//res.status(400).json({error: "User with this email already exists"})
 			return res.redirect('/user/signup');
 
 		}

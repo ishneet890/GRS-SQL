@@ -1,3 +1,58 @@
+a:link {
+    color: white;
+  }
+  
+  /* visited link */
+  a:visited {
+    color: white;
+  }
+  
+  /* mouse over link */
+  a:hover {
+    color: white;
+  }
+  
+  /* selected link */
+  a:active {
+    color: white;
+  }
+.entity{
+    display:flex;
+    margin-bottom: 5%;
+    flex-direction: column; /* Vertical alignment of the flexbox container */
+    width: 600px;
+    border: none;
+    float:left;
+    border-radius: 1.5rem;
+    padding: 2%;
+    background: -webkit-linear-gradient( 
+-45deg
+ , #f75959 0%, #f35587 100%);;
+    color: white;
+    font-weight: 600;
+    width: 50%;
+    cursor: pointer;
+}
+.entity1{
+    display:flex;
+    margin-bottom: 15%;
+    flex-direction: column; /* Vertical alignment of the flexbox container */
+    width: 300px;
+    border: none;
+    float:left;
+    border-radius: 1.5rem;
+    padding: 2%;
+    background: -webkit-linear-gradient( 
+-45deg
+ , #f75959 0%, #f35587 100%);;
+    color: white;
+    font-weight: 600;
+    width: 30%;
+    cursor: pointer;
+}
+label {
+    margin-bottom: 10px; /* Go down you Textarea! */
+  }
 .register{
     background: -webkit-linear-gradient(-45deg,#f75959 0%, #f35587 100%);
     margin-top: 3%;
@@ -51,16 +106,17 @@
 }
 .btnRegister{
     float: right;
-    margin-top: 10%;
+    margin-right: 7em;
+    margin-top: 0.1%;
     border: none;
     border-radius: 1.5rem;
-    padding: 2%;
+    padding: 7%;
     background: -webkit-linear-gradient( 
 -45deg
  , #f75959 0%, #f35587 100%);;
     color: #fff;
     font-weight: 600;
-    width: 50%;
+    width: 130%;
     cursor: pointer;
 }
 .register .nav-tabs{

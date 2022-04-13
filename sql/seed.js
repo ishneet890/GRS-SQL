@@ -1,9 +1,9 @@
 const mysql = require('mysql');
-const sql_password=require('D:/DBMS/password.js');
+const sql_password='pass';
 const connection = mysql.createConnection({
 	host : 'localhost',
 	user : 'root',
-	password: sql_password,
+	password: 'pass',
 	multipleStatements : true
 });
 connection.connect(function(err) {

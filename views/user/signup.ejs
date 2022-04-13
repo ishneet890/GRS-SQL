@@ -9,6 +9,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="https://kit.fontawesome.com/6d1a88741d.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/navbarActive.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
 </head>
 <body>
 <%- include('../partials/navbarLogin.ejs') %>
@@ -68,9 +69,29 @@
                                     <input type="text" class="form-control" name="address" placeholder="Address*" value="" required/>
                                 </div>
                                 
-                                <input type="submit" class="btnRegister"  value="Register"/>
+                                <!-- <input type="submit" class="btnRegister"  value="Register"/> -->
+
+                               
+
                             </div>
+
+                            <div class="col-md-9">
+                            <div class = "entity">
+                                <a href="/google"><span class="fa fa-google-plus"></span> Sign Up With Google</a>
+                            </div>
+                            </div>
+
+                            <div class="col-md-3">
+                            <div>
+                                <input type="submit" class="btnRegister"  value="Register"/>
+                                <!-- <a href="/google"><span class="fa fa-google-plus"></span> Sign Up With Google</a> -->
+                            </div>
+
+                            </div>
+
+                            
                         </div>
+                        
                     </form>
                 </div>
             </div>
